@@ -29,8 +29,8 @@ public class Room implements Serializable {
     private List<Order> orderList;
 
     @Id
-    @Column(name = "roomNumber")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "roomNumber")
     public Long getRoomNumber() {
         return roomNumber;
     }
@@ -66,8 +66,8 @@ public class Room implements Serializable {
         this.description = description;
     }
 
-    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
     public RoomStatus getStatus() {
         return status;
     }
@@ -77,6 +77,7 @@ public class Room implements Serializable {
     }
 
     @Version
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "modDate")
     public Date getModDate() {
         return modDate;
@@ -86,7 +87,7 @@ public class Room implements Serializable {
         this.modDate = modDate;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "room")
     public List<Order> getOrderList() {
         return orderList;
     }

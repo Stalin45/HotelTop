@@ -32,8 +32,8 @@ public class Order implements Serializable {
     private Date modDate;
 
     @Id
-    @Column(name = "orderId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orderId")
     public Long getOrderId() {
         return orderId;
     }
@@ -89,6 +89,7 @@ public class Order implements Serializable {
         this.bonusPoints = bonusPoints;
     }
 
+    @Temporal(value = TemporalType.DATE)
     @Column(name = "orderDate")
     public Date getOrderDate() {
         return orderDate;
@@ -98,8 +99,8 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
     }
 
-    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
     public OrderStatus getStatus() {
         return status;
     }
@@ -109,6 +110,7 @@ public class Order implements Serializable {
     }
 
     @Version
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "modDate")
     public Date getModDate() {
         return modDate;

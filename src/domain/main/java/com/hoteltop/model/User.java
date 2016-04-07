@@ -27,8 +27,8 @@ public class User implements Serializable {
     private List<Order> orderList;
 
     @Id
-    @Column(name = "userId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
     public Long getUserId() {
         return userId;
     }
@@ -37,8 +37,8 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    @Column(name = "bonusPoints")
     @NotNull
+    @Column(name = "bonusPoints")
     public Long getBonusPoints() {
         return bonusPoints;
     }
@@ -47,8 +47,8 @@ public class User implements Serializable {
         this.bonusPoints = bonusPoints;
     }
 
-    @Column(name = "totalPayments")
     @NotNull
+    @Column(name = "totalPayments")
     public Long getTotalPayments() {
         return totalPayments;
     }
@@ -57,8 +57,8 @@ public class User implements Serializable {
         this.totalPayments = totalPayments;
     }
 
-    @Column(name = "discountPerc")
     @NotNull
+    @Column(name = "discountPerc")
     public byte getDiscountPerc() {
         return discountPerc;
     }
@@ -68,6 +68,7 @@ public class User implements Serializable {
     }
 
     @Version
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "modDate")
     public Date getModDate() {
         return modDate;
@@ -77,7 +78,7 @@ public class User implements Serializable {
         this.modDate = modDate;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     public List<Order> getOrderList() {
         return orderList;
     }
