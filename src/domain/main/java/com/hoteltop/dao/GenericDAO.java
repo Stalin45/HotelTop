@@ -5,6 +5,7 @@ package com.hoteltop.dao;
  */
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface GenericDAO <T extends Serializable> {
 
@@ -12,7 +13,9 @@ public interface GenericDAO <T extends Serializable> {
 
     void update(T entity);
 
-    T get(Long id);
+    T findById(Long id);
+
+    List<T> findAll();
 
     void delete(T entity);
 
