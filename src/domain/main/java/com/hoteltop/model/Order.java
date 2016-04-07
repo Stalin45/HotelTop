@@ -3,14 +3,15 @@ package com.hoteltop.model;
 import com.hoteltop.util.enums.OrderStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Vlastelin on 03.04.2016.
  */
 @Entity
-@Table(name = "order")
-public class Order {
+@Table(name = "booking")
+public class Order implements Serializable {
 
     private Long orderId;
 
@@ -31,7 +32,7 @@ public class Order {
     private Date modDate;
 
     @Id
-    @Column
+    @Column(name = "orderId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getOrderId() {
         return orderId;
@@ -61,7 +62,7 @@ public class Order {
         this.room = room;
     }
 
-    @Column
+    @Column(name = "days")
     public short getDays() {
         return days;
     }
@@ -70,7 +71,7 @@ public class Order {
         this.days = days;
     }
 
-    @Column
+    @Column(name = "totalPrice")
     public Long getTotalPrice() {
         return totalPrice;
     }
@@ -79,7 +80,7 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    @Column
+    @Column(name = "bonusPoints")
     public Long getBonusPoints() {
         return bonusPoints;
     }
@@ -88,7 +89,7 @@ public class Order {
         this.bonusPoints = bonusPoints;
     }
 
-    @Column
+    @Column(name = "orderDate")
     public Date getOrderDate() {
         return orderDate;
     }
@@ -97,7 +98,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    @Column
+    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     public OrderStatus getStatus() {
         return status;
@@ -108,7 +109,7 @@ public class Order {
     }
 
     @Version
-    @Column
+    @Column(name = "modDate")
     public Date getModDate() {
         return modDate;
     }

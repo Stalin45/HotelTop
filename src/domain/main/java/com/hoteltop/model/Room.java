@@ -3,6 +3,7 @@ package com.hoteltop.model;
 import com.hoteltop.util.enums.RoomStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,8 @@ import java.util.List;
  * Created by Vlastelin on 03.04.2016.
  */
 @Entity
-public class Room {
+@Table(name = "room")
+public class Room implements Serializable {
 
     private Long roomNumber;
 
@@ -27,7 +29,7 @@ public class Room {
     private List<Order> orderList;
 
     @Id
-    @Column
+    @Column(name = "roomNumber")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getRoomNumber() {
         return roomNumber;
@@ -37,7 +39,7 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    @Column
+    @Column(name = "peopleCount")
     public byte getPeopleCount() {
         return peopleCount;
     }
@@ -46,7 +48,7 @@ public class Room {
         this.peopleCount = peopleCount;
     }
 
-    @Column
+    @Column(name = "price")
     public Integer getPrice() {
         return price;
     }
@@ -55,7 +57,7 @@ public class Room {
         this.price = price;
     }
 
-    @Column
+    @Column(name = "description")
     public String getDescription() {
         return description;
     }
@@ -64,7 +66,7 @@ public class Room {
         this.description = description;
     }
 
-    @Column
+    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     public RoomStatus getStatus() {
         return status;
@@ -75,7 +77,7 @@ public class Room {
     }
 
     @Version
-    @Column
+    @Column(name = "modDate")
     public Date getModDate() {
         return modDate;
     }

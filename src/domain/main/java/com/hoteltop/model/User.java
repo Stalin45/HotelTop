@@ -3,6 +3,7 @@ package com.hoteltop.model;
 import org.hibernate.validator.NotNull;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     private Long userId;
 
@@ -26,7 +27,7 @@ public class User {
     private List<Order> orderList;
 
     @Id
-    @Column
+    @Column(name = "userId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getUserId() {
         return userId;
@@ -36,7 +37,7 @@ public class User {
         this.userId = userId;
     }
 
-    @Column
+    @Column(name = "bonusPoints")
     @NotNull
     public Long getBonusPoints() {
         return bonusPoints;
@@ -46,7 +47,7 @@ public class User {
         this.bonusPoints = bonusPoints;
     }
 
-    @Column
+    @Column(name = "totalPayments")
     @NotNull
     public Long getTotalPayments() {
         return totalPayments;
@@ -56,7 +57,7 @@ public class User {
         this.totalPayments = totalPayments;
     }
 
-    @Column
+    @Column(name = "discountPerc")
     @NotNull
     public byte getDiscountPerc() {
         return discountPerc;
@@ -67,7 +68,7 @@ public class User {
     }
 
     @Version
-    @Column
+    @Column(name = "modDate")
     public Date getModDate() {
         return modDate;
     }
