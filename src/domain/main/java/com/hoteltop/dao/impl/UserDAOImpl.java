@@ -1,6 +1,5 @@
 package com.hoteltop.dao.impl;
 
-import com.hoteltop.dao.GenericDAO;
 import com.hoteltop.model.User;
 
 /**
