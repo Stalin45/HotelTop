@@ -31,6 +31,16 @@ public class Order implements Serializable {
 
     private Date modDate;
 
+    public Order(User user, Room room, short days, Long totalPrice, Long bonusPoints, Date orderDate, OrderStatus status) {
+        this.user = user;
+        this.room = room;
+        this.days = days;
+        this.totalPrice = totalPrice;
+        this.bonusPoints = bonusPoints;
+        this.orderDate = orderDate;
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderId")

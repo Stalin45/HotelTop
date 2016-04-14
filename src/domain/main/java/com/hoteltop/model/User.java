@@ -1,6 +1,6 @@
 package com.hoteltop.model;
 
-import org.hibernate.validator.NotNull;
+import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +16,10 @@ public class User implements Serializable {
 
     private Long userId;
 
+    private String name;
+
+    private String surname;
+
     private Long bonusPoints = 0L;
 
     private Long totalPayments = 0L;
@@ -26,6 +30,17 @@ public class User implements Serializable {
 
     private List<Order> orderList;
 
+    public User(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public User(String name, String surname, byte discountPerc, Long totalPayments, Long bonusPoints) {
+        this.discountPerc = discountPerc;
+        this.totalPayments = totalPayments;
+        this.bonusPoints = bonusPoints;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
@@ -35,6 +50,26 @@ public class User implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @NotNull
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @NotNull
+    @Column(name = "surname")
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     @NotNull

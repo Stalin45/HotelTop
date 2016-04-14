@@ -9,7 +9,7 @@ public enum OrderStatus {
 
     SUCCESSFUL("successful"),
 
-    CALCELED("canceled");
+    CANCELED("canceled");
 
     OrderStatus(String value) {
         this.value = value;

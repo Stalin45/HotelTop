@@ -1,7 +1,10 @@
 package com.hoteltop.common;
 
 import com.hoteltop.model.Order;
+import com.hoteltop.model.Room;
+import com.hoteltop.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,7 +12,11 @@ import java.util.List;
  */
 public interface OrderService {
 
-    public void createOrder(Order order);
+    public void makeOrder(User user, Room room, Date orderDate, short days);
+
+    public void confirmOrder(Order order);
+
+    public void cancelOrder(Order order);
 
     public void editOrder(Order order);
 

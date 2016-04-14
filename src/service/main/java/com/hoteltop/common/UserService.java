@@ -15,5 +15,7 @@ public interface UserService {
 
     public User getUserInfo(Long id);
 
-//    public void increaseBonuses();
+    public void increaseBonuses(User user);
+
+    public void changeDiscount();
 }
