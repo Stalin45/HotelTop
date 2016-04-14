@@ -1,6 +1,8 @@
-CREATE TABLE user 
+CREATE TABLE user
 (
 userId SERIAL,
+name VARCHAR(30) NOT NULL,
+surname VARCHAR(30) NOT NULL,
 bonusPoints INT NOT NULL DEFAULT 0,
 totalPayments INT NOT NULL DEFAULT 0,
 discountPerc INT(2) NOT NULL DEFAULT 0,
@@ -8,17 +10,32 @@ modDate TIMESTAMP,
 constraint pk_userId primary key (userId)
 ) ENGINE InnoDB CHARACTER SET utf8;
 
-CREATE TABLE room 
+CREATE TABLE room
 (
 roomNumber SERIAL,
 peopleCount INT(2),
 price INT(6),
 description TEXT,
-status ENUM('free', 'booked', 'inactive'),
 modDate TIMESTAMP,
 constraint pk_roomNumber primary key (roomNumber)
-) 
+)
 ENGINE InnoDB CHARACTER SET utf8;
+
+CREATE TABLE roomStatusCalendar
+(
+noteId SERIAL,
+roomNumber SERIAL,
+calendarDate DATE NOT NULL,
+status ENUM('free', 'booked', 'inactive') NOT NULL DEFAULT “booked”,
+modDate TIMESTAMP,
+constraint pk_noteId primary key (roomNumber)
+constraint fk_roomStatus_room foreign key (roomNumber) references room (roomNumber)
+on delete cascade
+on update cascade,
+constraint uc_roomNumber_calendarDate UNIQUE (roomNumber, calendarDate)
+)
+ENGINE InnoDB CHARACTER SET utf8;
+
 
 CREATE TABLE booking
 (

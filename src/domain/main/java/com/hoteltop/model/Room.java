@@ -1,6 +1,7 @@
 package com.hoteltop.model;
 
 import com.hoteltop.util.enums.RoomStatus;
+import com.sun.istack.internal.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,17 +17,35 @@ public class Room implements Serializable {
 
     private Long roomNumber;
 
-    private byte peopleCount;
+    private byte peopleCount = 1;
 
-    private Integer price;
+    private Integer price = 0;
 
     private String description;
-
-    private RoomStatus status;
 
     private Date modDate;
 
     private List<Order> orderList;
+
+    private List<RoomStatusCalendar> roomStatusCalendarList;
+
+    public Room(byte peopleCount, Integer price) {
+        this.peopleCount = peopleCount;
+        this.price = price;
+    }
+
+    public Room(byte peopleCount, Integer price, String description) {
+        this.peopleCount = peopleCount;
+        this.price = price;
+        this.description = description;
+    }
+
+    public Room(byte peopleCount, Integer price, String description, List<RoomStatusCalendar> roomStatusCalendarList) {
+        this.peopleCount = peopleCount;
+        this.price = price;
+        this.description = description;
+        this.roomStatusCalendarList = roomStatusCalendarList;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +58,7 @@ public class Room implements Serializable {
         this.roomNumber = roomNumber;
     }
 
+    @NotNull
     @Column(name = "peopleCount")
     public byte getPeopleCount() {
         return peopleCount;
@@ -64,16 +84,6 @@ public class Room implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "status")
-    public RoomStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(RoomStatus status) {
-        this.status = status;
     }
 
     @Version
