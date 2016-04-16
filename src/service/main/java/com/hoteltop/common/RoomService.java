@@ -11,6 +11,8 @@ public interface RoomService {
 
     public List<Room> showRooms(int page);
 
+    public List<Room> getById(Long id);
+
     public void createRoom(Room room);
 
     public void editRoom(Room room);

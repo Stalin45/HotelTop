@@ -2,6 +2,7 @@ package com.hoteltop.common.impl;
 
 import com.hoteltop.common.RoomService;
 import com.hoteltop.dao.RoomDAO;
+import com.hoteltop.dao.impl.RoomDAOImpl;
 import com.hoteltop.model.Room;
 
 import java.util.List;
@@ -11,11 +12,15 @@ import java.util.List;
  */
 public class RoomServiceImpl implements RoomService {
 
-    RoomDAO roomDAO = null;
+    RoomDAO roomDAO = new RoomDAOImpl();
 
     public List<Room> showRooms(int page) {
         //paging??
         return null;
+    }
+
+    public List<Room> getById(Long id) {
+        List<Room> roomList = roomDAO.findById(id);
     }
 
     public void createRoom(Room room) {

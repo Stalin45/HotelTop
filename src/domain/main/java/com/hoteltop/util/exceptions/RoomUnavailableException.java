@@ -3,7 +3,7 @@ package com.hoteltop.util.exceptions;
 /**
  * Created by Vlastelin on 13.04.2016.
  */
-public class RoomUnavailableException extends Exception {
+public class RoomUnavailableException extends HotelTopRuntimeException {
 
     public RoomUnavailableException() {
         super();

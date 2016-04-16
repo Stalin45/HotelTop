@@ -10,6 +10,8 @@ import java.util.Date;
 /**
  * Created by Vlastelin on 13.04.2016.
  */
+@Entity
+@Table(name = "roomStatusCalendar")
 public class RoomStatusCalendar implements Serializable {
 
     private Long noteId;
@@ -22,8 +24,20 @@ public class RoomStatusCalendar implements Serializable {
 
     private Date modDate;
 
+    public RoomStatusCalendar(Room room, Date calendarDate) {
+        this.room = room;
+        this.calendarDate = calendarDate;
+    }
+
+    public RoomStatusCalendar(Room room, Date calendarDate, RoomStatus status) {
+        this.room = room;
+        this.calendarDate = calendarDate;
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "noteId")
     public Long getNoteId() {
         return noteId;
     }

@@ -26,7 +26,7 @@ CREATE TABLE roomStatusCalendar
 noteId SERIAL,
 roomNumber SERIAL,
 calendarDate DATE NOT NULL,
-status ENUM('free', 'booked', 'inactive') NOT NULL DEFAULT “booked”,
+status ENUM('waiting approve', 'booked', 'inactive') NOT NULL DEFAULT “booked”,
 modDate TIMESTAMP,
 constraint pk_noteId primary key (roomNumber)
 constraint fk_roomStatus_room foreign key (roomNumber) references room (roomNumber)

@@ -2,6 +2,7 @@ package com.hoteltop.dao.impl;
 
 import com.hoteltop.dao.GenericDAO;
 import com.hoteltop.util.HibernateUtil;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -55,5 +56,9 @@ public abstract class GenericDAOImpl <T extends Serializable> implements Generic
     public void detach(T entity) {
         Session session = sessionFactory.getCurrentSession();
         session.evict(entity);
+    }
+
+    public Criteria getCriteria() {
+        return sessionFactory.getCurrentSession().createCriteria(entityClass);
     }
 }

@@ -4,6 +4,8 @@ package com.hoteltop.dao;
  * Created by Vlastelin on 06.04.2016.
  */
 
+import org.hibernate.Criteria;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,4 +24,6 @@ public interface GenericDAO <T extends Serializable> {
     public void merge(T entity);
 
     public void detach(T entity);
+
+    public Criteria getCriteria();
 }

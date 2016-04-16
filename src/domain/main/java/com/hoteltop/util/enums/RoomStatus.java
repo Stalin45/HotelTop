@@ -5,7 +5,7 @@ package com.hoteltop.util.enums;
  */
 public enum RoomStatus {
 
-    FREE("free"),
+    WAITING_APPROVE("waiting approve"),
 
     BOOKED("booked"),
 

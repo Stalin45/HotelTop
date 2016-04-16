@@ -3,6 +3,7 @@ package com.hoteltop.common;
 import com.hoteltop.model.Order;
 import com.hoteltop.model.Room;
 import com.hoteltop.model.User;
+import com.hoteltop.util.exceptions.RoomUnavailableException;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    public void makeOrder(User user, Room room, Date orderDate, short days);
+    public void makeOrder(User user, Room room, Date orderDate, short days) throws RoomUnavailableException;
 
     public void confirmOrder(Order order);
 
