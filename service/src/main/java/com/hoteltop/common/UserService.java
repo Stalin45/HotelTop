@@ -3,6 +3,8 @@ package com.hoteltop.common;
 import com.hoteltop.model.User;
 import com.hoteltop.util.exceptions.HotelTopTechnicalException;
 
+import java.util.List;
+
 /**
  * Created by Vlastelin on 08.04.2016.
  */
@@ -19,4 +21,6 @@ public interface UserService {
     public void increaseBonuses(User user, Long bonusPoints);
 
     public void changeDiscount(User user);
+
+    public List<User> showListUsers(int page);
 }

@@ -14,4 +14,6 @@ public interface RoomStatusCalenarDAO extends GenericDAO<RoomStatusCalendar> {
     public RoomStatusCalendar findByRoomAndDate(Long roomId, Date date);
 
     public List<RoomStatusCalendar> findByRoomAndDateForPeriod(Long roomId, Date date, short period);
+
+    public List<RoomStatusCalendar> findByRoomNumber(Long roomNumber);
 }

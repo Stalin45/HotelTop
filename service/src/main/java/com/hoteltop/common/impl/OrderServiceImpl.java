@@ -134,9 +134,14 @@ public class OrderServiceImpl implements OrderService {
         orderDAO.delete(order);
     }
 
-    //TODO: paging
+    /**
+     * Gets list of orders for one page
+     *
+     * @param page page number
+     * @return list of orders
+     */
     public List<Order> showListOrders(int page) {
-        return null;
+        return orderDAO.getList(page);
     }
 
     /**

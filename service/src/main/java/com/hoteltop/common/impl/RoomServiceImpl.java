@@ -12,11 +12,16 @@ import java.util.List;
  */
 public class RoomServiceImpl implements RoomService {
 
-    RoomDAO roomDAO = new RoomDAOImpl();
+    private static final RoomDAO roomDAO = new RoomDAOImpl();
 
-    //TODO: paging
-    public List<Room> showRooms(int page) {
-        return null;
+    /**
+     * Shows list of rooms for one page
+     *
+     * @param page number of page
+     * @return list of rooms
+     */
+    public List<Room> showListRooms(int page) {
+        return roomDAO.getList(page);
     }
 
     /**

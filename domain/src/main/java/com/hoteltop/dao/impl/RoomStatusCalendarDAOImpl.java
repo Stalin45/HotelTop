@@ -47,4 +47,17 @@ public class RoomStatusCalendarDAOImpl extends GenericDAOImpl<RoomStatusCalendar
                 .add(Restrictions.le("calendarDate", endDate.getTime()))
                 .list();
     }
+
+    /**
+     * Find all notes for one room
+     *
+     * @param roomNumber number of room
+     * @return list of roomStatusCalendar
+     */
+    @Override
+    public List<RoomStatusCalendar> findByRoomNumber(Long roomNumber) {
+        Criteria criteria = getCriteria();
+        return (List<RoomStatusCalendar>) criteria.createAlias("room", "room")
+                .add(Restrictions.eq("room.roomNumber", roomNumber)).list();
+    }
 }

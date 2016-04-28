@@ -17,6 +17,8 @@ public interface GenericDAO <T extends Serializable> {
 
     public T findById(Long id);
 
+    public List<T> getList(int page);
+
     public List<T> findAll();
 
     public void delete(T entity);
@@ -24,6 +26,4 @@ public interface GenericDAO <T extends Serializable> {
     public void merge(T entity);
 
     public void detach(T entity);
-
-    public Criteria getCriteria();
 }

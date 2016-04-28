@@ -6,6 +6,8 @@ import com.hoteltop.dao.impl.UserDAOImpl;
 import com.hoteltop.model.User;
 import com.hoteltop.util.exceptions.HotelTopTechnicalException;
 
+import java.util.List;
+
 /**
  * Created by Vlastelin on 08.04.2016.
  */
@@ -17,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private final static byte MAX_DISCONT_TOTAL = 30;
 
-    UserDAO userDAO = new UserDAOImpl();
+    private static final UserDAO userDAO = new UserDAOImpl();
 
     public void createUser(User user) {
         //auth?
@@ -87,5 +89,15 @@ public class UserServiceImpl implements UserService {
     public void increaseBonuses(User user, Long bonusPoints) {
         user.setBonusPoints(bonusPoints);
         editUser(user);
+    }
+
+    /**
+     * Shows list of users for one page
+     *
+     * @param page page number
+     * @return list of users
+     */
+    public List<User> showListUsers(int page) {
+        return userDAO.getList(page);
     }
 }

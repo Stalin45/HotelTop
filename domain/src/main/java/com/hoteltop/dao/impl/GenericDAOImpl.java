@@ -15,6 +15,8 @@ import java.util.List;
  */
 public abstract class GenericDAOImpl <T extends Serializable> implements GenericDAO<T> {
 
+    private static final int ELEM_PER_PAGE = 30;
+
     private Class<T> entityClass;
 
     private static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -44,6 +46,13 @@ public abstract class GenericDAOImpl <T extends Serializable> implements Generic
         return (T) session.get(entityClass, id);
     }
 
+    public List<T> getList(int page) {
+        Criteria criteria = getCriteria();
+        return criteria
+                .setFirstResult((page - 1) * ELEM_PER_PAGE)
+                .setMaxResults(ELEM_PER_PAGE).list();
+    }
+
     public List<T> findAll() {
         return sessionFactory.getCurrentSession().createCriteria(entityClass).list();
     }
@@ -65,7 +74,7 @@ public abstract class GenericDAOImpl <T extends Serializable> implements Generic
         session.evict(entity);
     }
 
-    public Criteria getCriteria() {
+    protected Criteria getCriteria() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         return session.createCriteria(entityClass);

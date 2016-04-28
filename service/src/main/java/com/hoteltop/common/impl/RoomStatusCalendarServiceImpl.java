@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService {
 
-    private static RoomStatusCalenarDAO roomStatusCalenarDAO = new RoomStatusCalendarDAOImpl();
+    private static final RoomStatusCalenarDAO roomStatusCalenarDAO = new RoomStatusCalendarDAOImpl();
 
     /**
      * Checks is room available
@@ -79,5 +79,15 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
         for (RoomStatusCalendar statusNote : statusList) {
             roomStatusCalenarDAO.delete(statusNote);
         }
+    }
+
+    /**
+     * Finds all notes by roomNumber
+     *
+     * @param roomNumber number of room
+     */
+    @Override
+    public List<RoomStatusCalendar> showListByRoomNumber(Long roomNumber) {
+        return roomStatusCalenarDAO.findByRoomNumber(roomNumber);
     }
 }
