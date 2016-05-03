@@ -20,8 +20,17 @@
         <property name="order" value="1"/>
     </bean>
 
-    <!--<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">-->
-        <!--<property name="order" value="0"/>-->
-    <!--</bean>-->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
 
+    <!--<bean id="orderService" class="com.hoteltop.common.impl.OrderServiceImpl"/>-->
+    <!--<bean id="roomService" class="com.hoteltop.common.impl.RoomServiceImpl"/>-->
+    <!--<bean id="roomStatusCalendarService" class="com.hoteltop.common.impl.RoomStatusCalendarServiceImpl"/>-->
+    <!--<bean id="userService" class="com.hoteltop.common.impl.UserServiceImpl"/>-->
+
+    <!--<bean id="orderDAO" class="com.hoteltop.dao.impl.OrderDAOImpl"/>-->
+    <!--<bean id="roomDAO" class="com.hoteltop.dao.impl.RoomDAOImpl"/>-->
+    <!--<bean id="roomStatusCalendarDAO" class="com.hoteltop.dao.impl.RoomStatusCalendarDAOImpl"/>-->
+    <!--<bean id="userDAO" class="com.hoteltop.dao.impl.UserDAOImpl"/>-->
 </beans>

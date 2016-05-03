@@ -15,6 +15,9 @@ import com.hoteltop.model.User;
 import com.hoteltop.util.enums.OrderStatus;
 import com.hoteltop.util.enums.RoomStatus;
 import com.hoteltop.util.exceptions.RoomUnavailableException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -22,19 +25,25 @@ import java.util.List;
 /**
  * Created by Vlastelin on 08.04.2016.
  */
+@Service
 public class OrderServiceImpl implements OrderService {
 
     private static final float BONUS_POINTS_MULTIPLIER = 0.1f;
 
-    private static final OrderDAO orderDAO = new OrderDAOImpl();
+    @Autowired
+    private static OrderDAO orderDAO;
 
-    private static final UserDAO userDAO = new UserDAOImpl();
+    @Autowired
+    private static UserDAO userDAO;
 
-    private static final UserService userService = new UserServiceImpl();
+    @Autowired
+    private static UserService userService;
 
-    private static final RoomService roomService = new RoomServiceImpl();
+    @Autowired
+    private static RoomService roomService;
 
-    private static final RoomStatusCalendarService roomStatusCalendarService = new RoomStatusCalendarServiceImpl();
+    @Autowired
+    private static RoomStatusCalendarService roomStatusCalendarService;
 
     /**
      * Creates order (need to be confirmed by administrator)
@@ -45,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
      * @param days count of days
      * @throws RoomUnavailableException
      */
+    @Transactional
     public Order makeOrder(User user, Room room, Date orderDate, short days) throws RoomUnavailableException {
         long totalPrice = calculateTotalPrice(days, room.getPrice());
         Long bonusPoints = calculateBonusPoints(totalPrice);
@@ -85,6 +95,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param order the order
      */
+    @Transactional
     public void confirmOrder(Order order) {
         Room room = order.getRoom();
         if (roomStatusCalendarService.isRoomAvailable(room.getRoomNumber(), order.getOrderDate(), order.getDays())) {
@@ -106,6 +117,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param order the order
      */
+    @Transactional
     public void cancelOrder(Order order) {
         order.setStatus(OrderStatus.CANCELED);
         editOrder(order);
@@ -120,6 +132,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param order the order
      */
+    @Transactional
     public void editOrder(Order order) {
         orderDAO.merge(order);
         orderDAO.update(order);
@@ -130,6 +143,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param order the order
      */
+    @Transactional
     public void deleteOrder(Order order) {
         orderDAO.delete(order);
     }
@@ -140,6 +154,7 @@ public class OrderServiceImpl implements OrderService {
      * @param page page number
      * @return list of orders
      */
+    @Transactional
     public List<Order> showListOrders(int page) {
         return orderDAO.getList(page);
     }
@@ -150,7 +165,48 @@ public class OrderServiceImpl implements OrderService {
      * @param id id of order
      * @return order object
      */
+    @Transactional
     public Order getOrderInfo(Long id) {
         return orderDAO.findById(id);
+    }
+
+    public static OrderDAO getOrderDAO() {
+        return orderDAO;
+    }
+
+    public static void setOrderDAO(OrderDAO orderDAO) {
+        OrderServiceImpl.orderDAO = orderDAO;
+    }
+
+    public static UserDAO getUserDAO() {
+        return userDAO;
+    }
+
+    public static void setUserDAO(UserDAO userDAO) {
+        OrderServiceImpl.userDAO = userDAO;
+    }
+
+    public static UserService getUserService() {
+        return userService;
+    }
+
+    public static void setUserService(UserService userService) {
+        OrderServiceImpl.userService = userService;
+    }
+
+    public static RoomService getRoomService() {
+        return roomService;
+    }
+
+    public static void setRoomService(RoomService roomService) {
+        OrderServiceImpl.roomService = roomService;
+    }
+
+    public static RoomStatusCalendarService getRoomStatusCalendarService() {
+        return roomStatusCalendarService;
+    }
+
+    public static void setRoomStatusCalendarService(RoomStatusCalendarService roomStatusCalendarService) {
+        OrderServiceImpl.roomStatusCalendarService = roomStatusCalendarService;
     }
 }

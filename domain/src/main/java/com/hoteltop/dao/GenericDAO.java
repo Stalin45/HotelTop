@@ -19,6 +19,8 @@ public interface GenericDAO <T extends Serializable> {
 
     public List<T> getList(int page);
 
+    public long getPageCount();
+
     public List<T> findAll();
 
     public void delete(T entity);

@@ -5,12 +5,16 @@ import com.hoteltop.dao.UserDAO;
 import com.hoteltop.dao.impl.UserDAOImpl;
 import com.hoteltop.model.User;
 import com.hoteltop.util.exceptions.HotelTopTechnicalException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by Vlastelin on 08.04.2016.
  */
+@Service
 public class UserServiceImpl implements UserService {
 
     private final static int POINTS_DISCOUNT_COEFFICIENT = 10;
@@ -19,8 +23,10 @@ public class UserServiceImpl implements UserService {
 
     private final static byte MAX_DISCONT_TOTAL = 30;
 
-    private static final UserDAO userDAO = new UserDAOImpl();
+    @Autowired
+    private static UserDAO userDAO;
 
+    @Transactional
     public void createUser(User user) {
         //auth?
         userDAO.create(user);
@@ -31,6 +37,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user the user
      */
+    @Transactional
     public void deleteUser(User user) {
         userDAO.merge(user);
         userDAO.delete(user);
@@ -41,6 +48,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user the user
      */
+    @Transactional
     public void editUser(User user) {
         userDAO.merge(user);
         userDAO.update(user);
@@ -52,6 +60,7 @@ public class UserServiceImpl implements UserService {
      * @param id the id of user
      * @return user object
      */
+    @Transactional
     public User getUserInfo(Long id) {
         return userDAO.findById(id);
     }
@@ -61,6 +70,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user the user
      */
+    @Transactional
     public void changeDiscount(User user) {
         long currentBonusPoints = user.getBonusPoints();
         byte currentDiscount = user.getDiscountPerc();
@@ -86,6 +96,7 @@ public class UserServiceImpl implements UserService {
      * @param user the user
      * @param bonusPoints count of points to add
      */
+    @Transactional
     public void increaseBonuses(User user, Long bonusPoints) {
         user.setBonusPoints(bonusPoints);
         editUser(user);
@@ -97,7 +108,16 @@ public class UserServiceImpl implements UserService {
      * @param page page number
      * @return list of users
      */
+    @Transactional
     public List<User> showListUsers(int page) {
         return userDAO.getList(page);
+    }
+
+    public static UserDAO getUserDAO() {
+        return userDAO;
+    }
+
+    public static void setUserDAO(UserDAO userDAO) {
+        UserServiceImpl.userDAO = userDAO;
     }
 }

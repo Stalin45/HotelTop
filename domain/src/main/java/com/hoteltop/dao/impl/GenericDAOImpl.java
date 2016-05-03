@@ -1,10 +1,11 @@
 package com.hoteltop.dao.impl;
 
 import com.hoteltop.dao.GenericDAO;
-import com.hoteltop.util.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -13,22 +14,22 @@ import java.util.List;
 /**
  * Created by Vlastelin on 06.04.2016.
  */
-public abstract class GenericDAOImpl <T extends Serializable> implements GenericDAO<T> {
+abstract class GenericDAOImpl <T extends Serializable> implements GenericDAO<T> {
 
-    private static final int ELEM_PER_PAGE = 30;
+    private static final int ELEM_PER_PAGE = 2;
 
     private Class<T> entityClass;
 
-    private static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    @Autowired
+    private SessionFactory sessionFactory;
 
-    public GenericDAOImpl() {
+    protected GenericDAOImpl() {
         this.entityClass = (Class<T>) ((ParameterizedType) getClass().
                 getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     public T create(T entity) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.save(entity);
         session.getTransaction().commit();
         return entity;
@@ -36,7 +37,6 @@ public abstract class GenericDAOImpl <T extends Serializable> implements Generic
 
     public void update(T entity) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.update(entity);
         session.getTransaction().commit();
     }
@@ -53,13 +53,18 @@ public abstract class GenericDAOImpl <T extends Serializable> implements Generic
                 .setMaxResults(ELEM_PER_PAGE).list();
     }
 
+    public long getPageCount() {
+        Criteria criteria = getCriteria();
+        criteria.setProjection(Projections.rowCount());
+        return (long) criteria.uniqueResult() / ELEM_PER_PAGE;
+    }
+
     public List<T> findAll() {
         return sessionFactory.getCurrentSession().createCriteria(entityClass).list();
     }
 
     public void delete(T entity) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.delete(entity);
         session.getTransaction().commit();
     }
@@ -74,9 +79,16 @@ public abstract class GenericDAOImpl <T extends Serializable> implements Generic
         session.evict(entity);
     }
 
-    protected Criteria getCriteria() {
+    public Criteria getCriteria() {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         return session.createCriteria(entityClass);
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }

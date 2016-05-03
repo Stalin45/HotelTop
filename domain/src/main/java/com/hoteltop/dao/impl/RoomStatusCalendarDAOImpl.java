@@ -4,6 +4,7 @@ import com.hoteltop.dao.RoomStatusCalenarDAO;
 import com.hoteltop.model.RoomStatusCalendar;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Created by Vlastelin on 13.04.2016.
  */
+@Repository
 public class RoomStatusCalendarDAOImpl extends GenericDAOImpl<RoomStatusCalendar> implements RoomStatusCalenarDAO {
 
     /**

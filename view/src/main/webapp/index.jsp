@@ -1,7 +1,10 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<body>
-<h2>Hello World!</h2>
-<a href="${pageContext.request.contextPath}/room/show">click me</a>
-</body>
+    <body>
+        <c:import url="WEB-INF/views/parts/header.jsp"/>
+        <c:import url="WEB-INF/views/parts/navigation.jsp"/>
+        <h2>HELLO!</h2>
+        <c:import url="WEB-INF/views/parts/footer.jsp"/>
+    </body>
 </html>

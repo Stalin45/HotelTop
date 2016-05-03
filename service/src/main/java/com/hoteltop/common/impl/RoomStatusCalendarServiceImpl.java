@@ -8,6 +8,9 @@ import com.hoteltop.model.Room;
 import com.hoteltop.model.RoomStatusCalendar;
 import com.hoteltop.util.enums.RoomStatus;
 import com.hoteltop.util.exceptions.HotelTopRuntimeException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,9 +19,11 @@ import java.util.List;
 /**
  * Created by Vlastelin on 08.04.2016.
  */
+@Service
 public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService {
 
-    private static final RoomStatusCalenarDAO roomStatusCalenarDAO = new RoomStatusCalendarDAOImpl();
+    @Autowired
+    private static RoomStatusCalenarDAO roomStatusCalenarDAO;
 
     /**
      * Checks is room available
@@ -28,6 +33,7 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
      * @param period count of days
      * @return true if available
      */
+    @Transactional
     public boolean isRoomAvailable(Long roomId, Date date, short period) {
         List<RoomStatusCalendar> statusList =
                 roomStatusCalenarDAO.findByRoomAndDateForPeriod(roomId, date, period);
@@ -42,6 +48,7 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
      * @param date order date
      * @param period count of days
      */
+    @Transactional
     public void takeForApprove(Room room, Date date, short period) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -58,6 +65,7 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
      * @param date order date
      * @param period count of days
      */
+    @Transactional
     public void bookRoom(Room room, Date date, short period) {
         List<RoomStatusCalendar> statusList =
                 roomStatusCalenarDAO.findByRoomAndDateForPeriod(room.getRoomNumber(), date, period);
@@ -72,6 +80,7 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
      *
      * @param order order which relates to notes
      */
+    @Transactional
     public void deleteNotesForOrder(Order order) {
         Room room = order.getRoom();
         List<RoomStatusCalendar> statusList =
@@ -86,8 +95,16 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
      *
      * @param roomNumber number of room
      */
-    @Override
+    @Transactional
     public List<RoomStatusCalendar> showListByRoomNumber(Long roomNumber) {
         return roomStatusCalenarDAO.findByRoomNumber(roomNumber);
+    }
+
+    public static RoomStatusCalenarDAO getRoomStatusCalenarDAO() {
+        return roomStatusCalenarDAO;
+    }
+
+    public static void setRoomStatusCalenarDAO(RoomStatusCalenarDAO roomStatusCalenarDAO) {
+        RoomStatusCalendarServiceImpl.roomStatusCalenarDAO = roomStatusCalenarDAO;
     }
 }
