@@ -11,7 +11,8 @@
                     <p>No one <b>order</b> found</p>
                 </c:when>
                 <c:otherwise>
-                    <form:form method="post" commandName="makeOrderDTO">
+                    <%--commandName="makeOrderDTO"--%>
+                    <form:form method="post" action="/hotelTop/order/create" commandName="makeOrderDTO">
                         <form:hidden path="roomNumber"/>
                         <table>
                             <tr>
@@ -21,11 +22,16 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <select name="userId">
-                                        <c:forEach var="user" items="${users}">
-                                            <option value="${user.getUserId()}">${user.getName()} ${user.getSurname()}</option>
-                                        </c:forEach>
-                                    </select>
+                                    <%--<form:select path="user" items="${users}" itemValue="">--%>
+                                        <%--<c:forEach var="user" items="${users}">--%>
+                                            <%--<option value="${user.getUserId()}">${user.getName()} ${user.getSurname()}</option>--%>
+                                        <%--</c:forEach>--%>
+                                    <%--</form:select>--%>
+                                        <select name="userId">
+                                            <c:forEach var="user" items="${users}">
+                                                <option value="${user.getUserId()}">${user.getName()} ${user.getSurname()}</option>
+                                            </c:forEach>
+                                        </select>
                                 </td>
                                 <td><form:input path="dateFrom"/></td>
                                 <td><form:input path="dateTo"/></td>

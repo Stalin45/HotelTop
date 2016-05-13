@@ -9,6 +9,7 @@ import com.hoteltop.model.Room;
 import com.hoteltop.model.RoomStatusCalendar;
 import com.hoteltop.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,11 +59,11 @@ public class OrderController {
         return "order/createOrder";
     }
 
-    @RequestMapping(value = "/create/*", method = RequestMethod.POST)
-    public String completeCreation(@RequestParam Long userId,
-                                   @RequestParam Long roomNumber,
-                                   @RequestParam Date dateFrom,
-                                   @RequestParam Date dateTo) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String completeCreation(@RequestParam long userId,
+                                   @RequestParam long roomNumber,
+                                   @RequestParam @DateTimeFormat(pattern = "dd.MM.yyyy") Date dateFrom,
+                                   @RequestParam @DateTimeFormat(pattern = "dd.MM.yyyy") Date dateTo) {
         long difference = dateTo.getTime() - dateFrom.getTime();
         int days = (int) difference / 1000 / 60 / 60 / 24;
 
@@ -71,7 +72,23 @@ public class OrderController {
         Room room = new Room();
         room.setRoomNumber(roomNumber);
         orderService.makeOrder(user, room, dateFrom, (short) days);
-        return "redirect:/room/show/1";
+        return "redirect:/order/show/1";
+    }
+
+    @RequestMapping(value = "/confirm/{orderId}", method = RequestMethod.GET)
+    public String confirmOrder(@PathVariable Long orderId) {
+        Order order = new Order();
+        order.setOrderId(orderId);
+        orderService.confirmOrder(order);
+        return "redirect:/order/show/1";
+    }
+
+    @RequestMapping(value = "/cancel/{orderId}", method = RequestMethod.GET)
+    public String cancelOrder(@PathVariable Long orderId) {
+        Order order = new Order();
+        order.setOrderId(orderId);
+        orderService.cancelOrder(order);
+        return "redirect:/order/show/1";
     }
 //
 //    @RequestMapping(value = "/edit", method = RequestMethod.POST)

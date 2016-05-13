@@ -5,6 +5,7 @@ import com.hoteltop.common.RoomService;
 import com.hoteltop.common.RoomStatusCalendarService;
 import com.hoteltop.common.UserService;
 import com.hoteltop.dao.OrderDAO;
+import com.hoteltop.dao.RoomDAO;
 import com.hoteltop.dao.UserDAO;
 import com.hoteltop.dao.impl.OrderDAOImpl;
 import com.hoteltop.dao.impl.UserDAOImpl;
@@ -37,6 +38,9 @@ public class OrderServiceImpl implements OrderService {
     private UserDAO userDAO;
 
     @Autowired
+    private RoomDAO roomDAO;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -56,12 +60,15 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional
     public Order makeOrder(User user, Room room, Date orderDate, short days) throws RoomUnavailableException {
-        long totalPrice = calculateTotalPrice(days, room.getPrice());
+        Room persistedRoom = roomDAO.findById(room.getRoomNumber());
+        User persistedUser = userDAO.findById(user.getUserId());
+
+        long totalPrice = calculateTotalPrice(days, persistedRoom.getPrice());
         Long bonusPoints = calculateBonusPoints(totalPrice);
 
-        if (roomStatusCalendarService.isRoomAvailable(room.getRoomNumber(), orderDate, days)) {
-            Order order = new Order(user, room, days, totalPrice, bonusPoints, orderDate, OrderStatus.WAITING);
-            roomStatusCalendarService.takeForApprove(room, orderDate, days);
+        if (roomStatusCalendarService.isRoomAvailable(persistedRoom.getRoomNumber(), orderDate, days)) {
+            Order order = new Order(persistedUser, persistedRoom, days, totalPrice, bonusPoints, orderDate, OrderStatus.WAITING);
+            roomStatusCalendarService.takeForApprove(persistedRoom, orderDate, days);
             return orderDAO.create(order);
         } else {
             throw new RoomUnavailableException("Room currently is unavailable, please, choose another one");
@@ -97,19 +104,19 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional
     public void confirmOrder(Order order) {
-        Room room = order.getRoom();
-        if (roomStatusCalendarService.isRoomAvailable(room.getRoomNumber(), order.getOrderDate(), order.getDays())) {
-            roomStatusCalendarService.bookRoom(room, order.getOrderDate(), order.getDays());
+        Order persistedOrder = orderDAO.findById(order.getOrderId());
+        Room persitedRoom = roomDAO.findById(persistedOrder.getRoom().getRoomNumber());
 
-            order.setStatus(OrderStatus.SUCCESSFUL);
-            editOrder(order);
+        roomStatusCalendarService.bookRoom(persitedRoom, persistedOrder.getOrderDate(), persistedOrder.getDays());
 
-            User user = order.getUser();
-            userService.increaseBonuses(user, order.getBonusPoints());
-            userService.changeDiscount(user);
-        } else {
-            throw new RoomUnavailableException("Room currently is unavailable, please, choose another one");
-        }
+        persistedOrder.setStatus(OrderStatus.SUCCESSFUL);
+        editOrder(persistedOrder);
+
+        User user = persistedOrder.getUser();
+        user.setTotalPayments(user.getTotalPayments() + persistedOrder.getTotalPrice());
+        userService.increaseBonuses(user, persistedOrder.getBonusPoints());
+        userService.changeDiscount(user);
+        userService.editUser(user);
     }
 
     /**
@@ -119,10 +126,11 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional
     public void cancelOrder(Order order) {
-        order.setStatus(OrderStatus.CANCELED);
-        editOrder(order);
+        Order persistedOrder = orderDAO.findById(order.getOrderId());
+        persistedOrder.setStatus(OrderStatus.CANCELED);
+        editOrder(persistedOrder);
 
-        roomStatusCalendarService.deleteNotesForOrder(order);
+        roomStatusCalendarService.deleteNotesForOrder(persistedOrder);
         //billingService
         //userService.returnMoney();
     }
@@ -213,5 +221,13 @@ public class OrderServiceImpl implements OrderService {
 
     public void setRoomStatusCalendarService(RoomStatusCalendarService roomStatusCalendarService) {
         this.roomStatusCalendarService = roomStatusCalendarService;
+    }
+
+    public RoomDAO getRoomDAO() {
+        return roomDAO;
+    }
+
+    public void setRoomDAO(RoomDAO roomDAO) {
+        this.roomDAO = roomDAO;
     }
 }

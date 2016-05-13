@@ -40,7 +40,7 @@ public class RoomStatusCalendarDAOImpl extends GenericDAOImpl<RoomStatusCalendar
     public List<RoomStatusCalendar> findByRoomAndDateForPeriod(Long roomId, Date date, short period) {
         Calendar endDate = Calendar.getInstance();
         endDate.setTime(date);
-        endDate.add(Calendar.DATE, period);
+        endDate.add(Calendar.DATE, period-1);
         Criteria criteria = getCriteria();
         return (List<RoomStatusCalendar>) criteria.
                 createAlias("room", "room")

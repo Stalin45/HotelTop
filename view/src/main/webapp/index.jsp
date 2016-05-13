@@ -4,7 +4,7 @@
     <body>
         <c:import url="WEB-INF/views/parts/header.jsp"/>
         <c:import url="WEB-INF/views/parts/navigation.jsp"/>
-        <h2>HELLO!</h2>
+        <h2>Welcome!</h2>
         <c:import url="WEB-INF/views/parts/footer.jsp"/>
     </body>
 </html>

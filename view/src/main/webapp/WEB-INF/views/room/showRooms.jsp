@@ -7,7 +7,7 @@
         <div class="container">
             <c:choose>
                 <c:when test="${empty rooms}">
-                    <p>You are <b>not logged in</b> and not allowed to get cargos state.</p>
+                    <p>No one <b>room</b> found</p>
                 </c:when>
                 <c:otherwise>
                     <h2>Room list</h2>

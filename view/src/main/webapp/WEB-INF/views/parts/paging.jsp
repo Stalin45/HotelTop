@@ -16,6 +16,5 @@
                 </c:if>
             </c:if>
         </div>
-        <br/>
     </body>
 </html>

@@ -1,6 +1,7 @@
 package com.hoteltop.common.impl;
 
 import com.hoteltop.common.RoomStatusCalendarService;
+import com.hoteltop.dao.RoomDAO;
 import com.hoteltop.dao.RoomStatusCalenarDAO;
 import com.hoteltop.dao.impl.RoomStatusCalendarDAOImpl;
 import com.hoteltop.model.Order;
@@ -53,7 +54,8 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         for (int i = 0; i < period; i++) {
-            roomStatusCalenarDAO.create(new RoomStatusCalendar(room, calendar.getTime(), RoomStatus.WAITING_APPROVE));
+            RoomStatusCalendar roomStatusCalendar = new RoomStatusCalendar(room, calendar.getTime(), RoomStatus.WAITING_APPROVE);
+            roomStatusCalenarDAO.create(roomStatusCalendar);
             calendar.add(Calendar.DATE, 1);
         }
     }
@@ -70,7 +72,7 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
         List<RoomStatusCalendar> statusList =
                 roomStatusCalenarDAO.findByRoomAndDateForPeriod(room.getRoomNumber(), date, period);
         if (statusList == null || statusList.size() != period) {
-            throw new HotelTopRuntimeException("Can not find room notes for thee days");
+            throw new HotelTopRuntimeException("Can not find room notes for days");
         }
         RoomStatusCalendar roomStatusCalendar = new RoomStatusCalendar(room, date, RoomStatus.BOOKED);
     }

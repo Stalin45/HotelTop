@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void createUser(User user) {
-        //auth?
         userDAO.create(user);
     }
 
@@ -50,7 +49,6 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     public void editUser(User user) {
-//        userDAO.merge(user);
         userDAO.update(user);
     }
 
@@ -87,7 +85,6 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setBonusPoints(currentBonusPoints - increaseDiscount * POINTS_DISCOUNT_COEFFICIENT);
-        editUser(user);
     }
 
     /**
@@ -99,7 +96,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void increaseBonuses(User user, Long bonusPoints) {
         user.setBonusPoints(bonusPoints);
-        editUser(user);
     }
 
     /**

@@ -7,7 +7,7 @@
         <div class="container">
             <c:choose>
                 <c:when test="${empty orders}">
-                    <p>You are <b>not logged in</b> and not allowed to get cargos state.</p>
+                    <p>No one <b>order</b> found</p>
                 </c:when>
                 <c:otherwise>
                     <h2>Order list</h2>
@@ -16,6 +16,7 @@
                             <th class="col-md-5">ID</th>
                             <th class="col-md-7">Client</th>
                             <th class="col-md-7">Room number</th>
+                            <th class="col-md-7">Total price</th>
                             <th class="col-md-7">Order date</th>
                             <th class="col-md-7">Days</th>
                             <th class="col-md-7">Status</th>
@@ -26,11 +27,14 @@
                                 <td>${order.getOrderId()}</td>
                                 <td>${order.getUser().getName()} ${order.getUser().getSurname()}</td>
                                 <td>${order.getRoom().getRoomNumber()}</td>
+                                <td>${order.getTotalPrice()}</td>
                                 <td>${order.getOrderDate()}</td>
                                 <td>${order.getDays()}</td>
                                 <td>${order.getStatus()}</td>
-                                <td><a href="${pageContext.request.contextPath}/order/confirm/${room.getRoomNumber()}">Confirm</a>
-                                    <a href="${pageContext.request.contextPath}/order/cancel/${room.getRoomNumber()}">Cancel</a>
+                                <c:if test="${order.getStatus() eq 'WAITING'}">
+                                    <td><a href="${pageContext.request.contextPath}/order/confirm/${order.getOrderId()}">Confirm</a>
+                                        <a href="${pageContext.request.contextPath}/order/cancel/${order.getOrderId()}">Cancel</a></td>
+                                </c:if>
                             </tr>
                         </c:forEach>
                     </table>
