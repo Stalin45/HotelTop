@@ -31,14 +31,12 @@ abstract class GenericDAOImpl <T extends Serializable> implements GenericDAO<T> 
     public T create(T entity) {
         Session session = sessionFactory.getCurrentSession();
         session.save(entity);
-        session.getTransaction().commit();
         return entity;
     }
 
     public void update(T entity) {
         Session session = sessionFactory.getCurrentSession();
         session.update(entity);
-        session.getTransaction().commit();
     }
 
     public T findById(Long id) {
@@ -56,7 +54,7 @@ abstract class GenericDAOImpl <T extends Serializable> implements GenericDAO<T> 
     public long getPageCount() {
         Criteria criteria = getCriteria();
         criteria.setProjection(Projections.rowCount());
-        return (long) criteria.uniqueResult() / ELEM_PER_PAGE;
+        return (long) Math.ceil(((Long) criteria.uniqueResult()).doubleValue() / ELEM_PER_PAGE);
     }
 
     public List<T> findAll() {
@@ -66,7 +64,6 @@ abstract class GenericDAOImpl <T extends Serializable> implements GenericDAO<T> 
     public void delete(T entity) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(entity);
-        session.getTransaction().commit();
     }
 
     public void merge(T entity) {

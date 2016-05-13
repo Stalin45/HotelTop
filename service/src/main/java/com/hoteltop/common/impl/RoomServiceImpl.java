@@ -62,7 +62,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Transactional
     public void editRoom(Room room) {
-        roomDAO.merge(room);
+//        roomDAO.merge(room);
         roomDAO.update(room);
     }
 
@@ -73,6 +73,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Transactional
     public void deleteRoom(Room room) {
+        roomDAO.merge(room);
         roomDAO.delete(room);
     }
 

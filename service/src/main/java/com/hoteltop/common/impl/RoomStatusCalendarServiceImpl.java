@@ -23,7 +23,7 @@ import java.util.List;
 public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService {
 
     @Autowired
-    private static RoomStatusCalenarDAO roomStatusCalenarDAO;
+    private RoomStatusCalenarDAO roomStatusCalenarDAO;
 
     /**
      * Checks is room available
@@ -100,11 +100,11 @@ public class RoomStatusCalendarServiceImpl implements RoomStatusCalendarService 
         return roomStatusCalenarDAO.findByRoomNumber(roomNumber);
     }
 
-    public static RoomStatusCalenarDAO getRoomStatusCalenarDAO() {
+    public RoomStatusCalenarDAO getRoomStatusCalenarDAO() {
         return roomStatusCalenarDAO;
     }
 
-    public static void setRoomStatusCalenarDAO(RoomStatusCalenarDAO roomStatusCalenarDAO) {
-        RoomStatusCalendarServiceImpl.roomStatusCalenarDAO = roomStatusCalenarDAO;
+    public void setRoomStatusCalenarDAO(RoomStatusCalenarDAO roomStatusCalenarDAO) {
+        this.roomStatusCalenarDAO = roomStatusCalenarDAO;
     }
 }

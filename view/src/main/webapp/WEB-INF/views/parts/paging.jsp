@@ -5,13 +5,15 @@
         <c:set var="nextPage" value="${page+1}"/>
         <br/>
         <div class="paging">
-            <b>Pages: </b>
-            <c:if test="${page ne 1}">
-                <a href="${pageContext.request.contextPath}/room/show/${prevPage}">${prevPage}</a>
-            </c:if>
-            <b>${page}</b>
-            <c:if test="${page ne pageCount}">
-                <a href="${pageContext.request.contextPath}/room/show/${nextPage}">${nextPage}</a>
+            <c:if test="${pageCount ne 0 and page <= pageCount}">
+                <b>Pages: </b>
+                <c:if test="${page ne 1}">
+                    <a href="${pageContext.request.contextPath}/${entity}/show/${prevPage}">${prevPage}</a>
+                </c:if>
+                <b>${page}</b>
+                <c:if test="${page ne pageCount}">
+                    <a href="${pageContext.request.contextPath}/${entity}/show/${nextPage}">${nextPage}</a>
+                </c:if>
             </c:if>
         </div>
         <br/>

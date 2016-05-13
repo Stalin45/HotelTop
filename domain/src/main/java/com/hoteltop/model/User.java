@@ -15,7 +15,7 @@ public class User implements Serializable {
 
     private Long userId;
 
-    private String name;
+    private String name = "lol";
 
     private String surname;
 
@@ -30,6 +30,12 @@ public class User implements Serializable {
     private List<Order> orderList;
 
     public User() {
+    }
+
+    public User(Long userId, String name, String surname) {
+        this.userId = userId;
+        this.name = name;
+        this.surname = surname;
     }
 
     public User(String name, String surname) {

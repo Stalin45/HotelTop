@@ -25,5 +25,7 @@ public interface OrderService {
 
     public List<Order> showListOrders(int page);
 
+    public long getPageCount();
+
     public Order getOrderInfo(Long id);
 }

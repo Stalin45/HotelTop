@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private final static byte MAX_DISCONT_TOTAL = 30;
 
     @Autowired
-    private static UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Transactional
     public void createUser(User user) {
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     public void editUser(User user) {
-        userDAO.merge(user);
+//        userDAO.merge(user);
         userDAO.update(user);
     }
 
@@ -113,11 +113,21 @@ public class UserServiceImpl implements UserService {
         return userDAO.getList(page);
     }
 
-    public static UserDAO getUserDAO() {
+    @Transactional
+    public List<User> getAllUsers() {
+        return userDAO.findAll();
+    }
+
+    @Transactional
+    public long getPageCount() {
+        return userDAO.getPageCount();
+    }
+
+    public UserDAO getUserDAO() {
         return userDAO;
     }
 
-    public static void setUserDAO(UserDAO userDAO) {
-        UserServiceImpl.userDAO = userDAO;
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 }

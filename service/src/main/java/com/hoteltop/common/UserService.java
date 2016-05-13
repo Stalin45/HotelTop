@@ -23,4 +23,8 @@ public interface UserService {
     public void changeDiscount(User user);
 
     public List<User> showListUsers(int page);
+
+    public List<User> getAllUsers();
+
+    public long getPageCount();
 }

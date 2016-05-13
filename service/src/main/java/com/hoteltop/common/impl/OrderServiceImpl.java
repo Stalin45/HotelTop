@@ -31,19 +31,19 @@ public class OrderServiceImpl implements OrderService {
     private static final float BONUS_POINTS_MULTIPLIER = 0.1f;
 
     @Autowired
-    private static OrderDAO orderDAO;
+    private OrderDAO orderDAO;
 
     @Autowired
-    private static UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Autowired
-    private static UserService userService;
+    private UserService userService;
 
     @Autowired
-    private static RoomService roomService;
+    private RoomService roomService;
 
     @Autowired
-    private static RoomStatusCalendarService roomStatusCalendarService;
+    private RoomStatusCalendarService roomStatusCalendarService;
 
     /**
      * Creates order (need to be confirmed by administrator)
@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional
     public void editOrder(Order order) {
-        orderDAO.merge(order);
+//        orderDAO.merge(order);
         orderDAO.update(order);
     }
 
@@ -146,6 +146,11 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void deleteOrder(Order order) {
         orderDAO.delete(order);
+    }
+
+    @Transactional
+    public long getPageCount() {
+        return orderDAO.getPageCount();
     }
 
     /**
@@ -170,43 +175,43 @@ public class OrderServiceImpl implements OrderService {
         return orderDAO.findById(id);
     }
 
-    public static OrderDAO getOrderDAO() {
+    public OrderDAO getOrderDAO() {
         return orderDAO;
     }
 
-    public static void setOrderDAO(OrderDAO orderDAO) {
-        OrderServiceImpl.orderDAO = orderDAO;
+    public void setOrderDAO(OrderDAO orderDAO) {
+        this.orderDAO = orderDAO;
     }
 
-    public static UserDAO getUserDAO() {
+    public UserDAO getUserDAO() {
         return userDAO;
     }
 
-    public static void setUserDAO(UserDAO userDAO) {
-        OrderServiceImpl.userDAO = userDAO;
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
-    public static UserService getUserService() {
+    public UserService getUserService() {
         return userService;
     }
 
-    public static void setUserService(UserService userService) {
-        OrderServiceImpl.userService = userService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
-    public static RoomService getRoomService() {
+    public RoomService getRoomService() {
         return roomService;
     }
 
-    public static void setRoomService(RoomService roomService) {
-        OrderServiceImpl.roomService = roomService;
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
     }
 
-    public static RoomStatusCalendarService getRoomStatusCalendarService() {
+    public RoomStatusCalendarService getRoomStatusCalendarService() {
         return roomStatusCalendarService;
     }
 
-    public static void setRoomStatusCalendarService(RoomStatusCalendarService roomStatusCalendarService) {
-        OrderServiceImpl.roomStatusCalendarService = roomStatusCalendarService;
+    public void setRoomStatusCalendarService(RoomStatusCalendarService roomStatusCalendarService) {
+        this.roomStatusCalendarService = roomStatusCalendarService;
     }
 }
